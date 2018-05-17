@@ -7,7 +7,7 @@ const sayYoMiddleware = ({ reply }, next) => reply('yo').then(() => next())
 
 const {reply} =  Telegraf;
 
-const bot = new Telegraf(process.env.BOT_TOKEN)
+const bot = new Telegraf(process.env.BOT_TOKEN!)
 
 bot.start((ctx) => ctx.reply('Bot started!'));
 
@@ -18,6 +18,10 @@ bot.command('cat', ({ replyWithPhoto }) => replyWithPhoto(randomPhoto))
 
 // Look ma, reply middleware factory
 bot.command('foo', reply('http://coub.com/view/9cjmt'))
+
+bot.telegram.getMe().then((botInfo) => {
+  bot.options.username = botInfo.username
+});
 
 // Start polling
 bot.startPolling()

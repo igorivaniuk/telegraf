@@ -41,3 +41,4 @@ _docpress
 package-lock.json
 .env
 .vscode
+.idea

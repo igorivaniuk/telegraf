@@ -355,6 +355,11 @@ export class Telegram {
    */
   constructor(token: string, options: TelegramOptions)
 
+  /**
+   * A simple method for testing your bot's auth token. Requires no parameters.
+   * @returns {Promise<User>} Returns basic information about the bot in form of a User object.
+   */
+  getMe(): Promise<tt.User>
 
   /**
    * Use this method to send answers to callback queries.
@@ -805,6 +810,13 @@ export class Telegraf<C extends ContextMessageUpdate> extends Composer<C> {
    * Use this property to control reply via webhook feature.
    */
   public webhookReply: boolean
+
+  /**
+   * Telegram client instance
+   */
+  public telegram: Telegram
+
+  public options: TelegrafOptions
 
   /**
    * Initialize new Telegraf app.
