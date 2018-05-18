@@ -905,5 +905,6 @@ export class Telegraf<C extends ContextMessageUpdate> extends Composer<C> {
   handleUpdate(rawUpdate: tt.Update, webhookResponse?: ServerResponse): Promise<any>
 }
 
-
-export default Telegraf
+declare module 'telegraf/telegram' {
+  export = Telegram
+}
