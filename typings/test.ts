@@ -23,5 +23,7 @@ bot.telegram.getMe().then((botInfo) => {
   bot.options.username = botInfo.username
 });
 
+bot.telegram.setWebhook('https://server.tld:8443/secret-path')
+
 // Start polling
 bot.startPolling()

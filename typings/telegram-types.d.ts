@@ -156,6 +156,18 @@ export type InputFile =
 
   }
 
+  export interface ExtraEditCaption {
+    /**
+     * Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.
+     */
+    parse_mode?: ParseMode
+
+    /**
+     * Additional interface options. An object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+     */
+    reply_markup?: TT.InlineKeyboardMarkup | TT.ReplyKeyboardMarkup | TT.ReplyKeyboardRemove | TT.ForceReply
+  }
+
   export interface ExtraAudio extends ExtraReplyMessage {
     /**
      * Audio caption, 0-200 characters
@@ -176,6 +188,11 @@ export type InputFile =
      * Track name
      */
     title?: string
+
+    /**
+     * Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.
+     */
+    parse_mode?: ParseMode
   }
 
   export interface ExtraDocument extends ExtraReplyMessage {
@@ -183,6 +200,11 @@ export type InputFile =
      * Document caption (may also be used when resending documents by file_id), 0-200 characters
      */
     caption?: string
+
+    /**
+     * Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.
+     */
+    parse_mode?: ParseMode
   }
 
   export interface ExtraGame extends ExtraReplyMessage {
@@ -205,6 +227,11 @@ export type InputFile =
      * Photo caption (may also be used when resending photos by file_id), 0-200 characters
      */
     caption?: string
+
+    /**
+     * Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.
+     */
+    parse_mode?: ParseMode
   }
 
   export interface ExtraSticker extends ExtraReplyMessage {
@@ -215,6 +242,16 @@ export type InputFile =
   export interface ExtraVideo extends ExtraReplyMessage {
     // no specified video props
     // https://core.telegram.org/bots/api#sendvideo
+
+    /**
+     * Photo caption (may also be used when resending photos by file_id), 0-200 characters
+     */
+    caption?: string
+
+    /**
+     * Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.
+     */
+    parse_mode?: ParseMode
   }
 
   export interface IncomingMessage extends TT.Message {

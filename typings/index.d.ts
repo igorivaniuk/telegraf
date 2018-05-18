@@ -342,7 +342,26 @@ export interface Middleware<C extends ContextMessageUpdate> {
 
 export type HearsTriggers = string[] | string | RegExp | RegExp[] | Function
 
+interface FileByPath {
+  source: string
+}
+
+interface FileByReadableStream {
+  source: NodeJS.ReadableStream
+}
+
+interface FileByBuffer {
+  source: Buffer
+}
+
+type File = FileByPath | FileByReadableStream | FileByBuffer;
+
 export class Telegram {
+  /**
+   * Bot token
+   */
+  public token: string
+
   /**
    * Use this property to control reply via webhook feature.
    */
@@ -353,13 +372,48 @@ export class Telegram {
    * @param token Bot token
    * @param options Telegram options
    */
-  constructor(token: string, options: TelegramOptions)
+  constructor(token: string, options?: TelegramOptions)
 
   /**
    * A simple method for testing your bot's auth token. Requires no parameters.
    * @returns {Promise<User>} Returns basic information about the bot in form of a User object.
    */
   getMe(): Promise<tt.User>
+
+  /**
+   * Use this method to specify a url and receive incoming updates via an outgoing webhook. Whenever there is an update for the bot, we will send an HTTPS POST request to the specified url, containing a JSON-serialized Update. In case of an unsuccessful request, we will give up after a reasonable amount of attempts.
+   * @param {string} url
+   * @param {File} cert
+   * @param {number} maxConnections
+   * @param {string} allowedUpdates
+   * @returns {Promise<boolean>}
+   */
+  setWebhook(url: string, cert?: File, maxConnections?: number, allowedUpdates?: string): Promise<boolean>
+
+  /**
+   * Use this method to get current webhook status. Requires no parameters.
+   * On success, returns a WebhookInfo object.
+   * If the bot is using getUpdates, will return an object with the url field empty.
+   * @returns {Promise<WebhookInfo>}
+   */
+  getWebhookInfo(): Promise<tt.WebhookInfo>;
+
+
+  /**
+   * Use this method to get a list of profile pictures for a user.
+   * @param {number} userId
+   * @param {number} offset
+   * @param {number} limit
+   * @returns {Promise<UserProfilePhotos>}
+   */
+  getUserProfilePhotos(userId: number, offset?: number, limit?: number): Promise<tt.UserProfilePhotos>;
+
+  /**
+   * Returns basic info about a file and prepare it for downloading.
+   * @param {string} fileId
+   * @returns {Promise<File>}
+   */
+  getFile(fileId: string): Promise<tt.File>;
 
   /**
    * Use this method to send answers to callback queries.
@@ -429,7 +483,7 @@ export class Telegram {
    * @param caption New caption of the message
    * @param markup A JSON-serialized object for an inline keyboard.
    */
-  editMessageCaption(chatId?: number | string, messageId?: number, inlineMessageId?: string, caption?: string, markup?: string): Promise<tt.Message | boolean>
+  editMessageCaption(chatId?: number | string, messageId?: number, inlineMessageId?: string, caption?: string, markup?: string | tt.ExtraEditCaption): Promise<tt.Message | boolean>
 
   /**
    * Use this method to edit only the reply markup of messages sent by the bot or via the bot (for inline bots).
