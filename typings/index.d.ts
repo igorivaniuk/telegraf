@@ -3,6 +3,7 @@
 import { IncomingMessage, ServerResponse } from 'http'
 import { Agent } from 'https'
 import { TlsOptions } from 'tls'
+import { InputFile } from "./telegram-types";
 
 import * as tt from './telegram-types.d'
 
@@ -342,20 +343,6 @@ export interface Middleware<C extends ContextMessageUpdate> {
 
 export type HearsTriggers = string[] | string | RegExp | RegExp[] | Function
 
-interface FileByPath {
-  source: string
-}
-
-interface FileByReadableStream {
-  source: NodeJS.ReadableStream
-}
-
-interface FileByBuffer {
-  source: Buffer
-}
-
-type File = FileByPath | FileByReadableStream | FileByBuffer;
-
 export class Telegram {
   /**
    * Bot token
@@ -388,7 +375,7 @@ export class Telegram {
    * @param {string} allowedUpdates
    * @returns {Promise<boolean>}
    */
-  setWebhook(url: string, cert?: File, maxConnections?: number, allowedUpdates?: string): Promise<boolean>
+  setWebhook(url: string, cert?: InputFile, maxConnections?: number, allowedUpdates?: string): Promise<boolean>
 
   /**
    * Use this method to get current webhook status. Requires no parameters.
