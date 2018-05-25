@@ -246,13 +246,17 @@ export interface ContextMessageUpdate extends Context {
   answerInlineQuery(results: tt.InlineQueryResult[], extra?: tt.ExtraAnswerInlineQuery): Promise<boolean>
 
   /**
+   * @deprecated
+   */
+  answerCallbackQuery(text?: string, url?: string, showAlert?: boolean, cacheTime?: number): Promise<boolean>
+  /**
    * Use this method to send answers to callback queries.
    * @param text Notification text
    * @param url Game url
    * @param showAlert Show alert instead of notification
    * @param cacheTime The maximum amount of time in seconds that the result of the callback query may be cached client-side. Telegram apps will support caching starting in version 3.14. Defaults to 0.
    */
-  answerCallbackQuery(text?: string, url?: string, showAlert?: boolean, cacheTime?: number): Promise<boolean>
+  answerCbQuery(text?: string, url?: string, showAlert?: boolean, cacheTime?: number): Promise<boolean>
 
   /**
    * Use this method to send answers to game query.
@@ -352,7 +356,7 @@ export class Telegram {
   /**
    * Use this property to control reply via webhook feature.
    */
-  public webkhookReply: boolean
+  public webhookReply: boolean
 
   /**
    * Initialize new Telegram app.
@@ -401,6 +405,13 @@ export class Telegram {
    * @returns {Promise<File>}
    */
   getFile(fileId: string): Promise<tt.File>;
+
+  /**
+   * Returns http file link
+   * @param {string} fileId
+   * @returns {Promise<string>}
+   */
+  getFileLink(fileId: string): Promise<string>;
 
   /**
    * Use this method to send answers to callback queries.
@@ -903,8 +914,4 @@ export class Telegraf<C extends ContextMessageUpdate> extends Composer<C> {
    * @param webhookResponse http.ServerResponse
    */
   handleUpdate(rawUpdate: tt.Update, webhookResponse?: ServerResponse): Promise<any>
-}
-
-declare module 'telegraf/telegram' {
-  export = Telegram
 }
